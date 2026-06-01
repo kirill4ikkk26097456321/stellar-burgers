@@ -4,10 +4,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 
-import { AppHeader } from '@components';
-import { Modal } from '@components';
-import { IngredientDetails } from '@components';
-import { OrderInfo } from '@components';
+import { AppHeader, Modal, IngredientDetails, OrderInfo } from '@components';
 import { Preloader } from '@ui';
 
 import {
@@ -74,16 +71,9 @@ const App = () => {
         </div>
       ) : (
         <>
-          {/*
-           * Если есть background, то <Routes> рендерит страницу-фон,
-           * поверх которой ниже монтируется модальное окно.
-           */}
           <Routes location={background || location}>
-            {/* Публичные роуты */}
-            <Route path='/' element={<ConstructorPage />} />
             <Route path='/feed' element={<Feed />} />
 
-            {/* ── Роуты только для ГОСТЕЙ ── */}
             <Route
               element={
                 <ProtectedRoute
@@ -98,7 +88,6 @@ const App = () => {
               <Route path='/reset-password' element={<ResetPassword />} />
             </Route>
 
-            {/* ── Роуты только для АВТОРИЗОВАННЫХ ── */}
             <Route
               element={
                 <ProtectedRoute onlyForAuth isAuthenticated={isAuthenticated} />
@@ -106,19 +95,15 @@ const App = () => {
             >
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/orders' element={<ProfileOrders />} />
-              {/* Прямой URL /profile/orders/:number — полноэкранная страница */}
               <Route path='/profile/orders/:number' element={<OrderInfo />} />
             </Route>
 
-            {/* Детали ингредиента / заказа как отдельные страницы (прямой URL) */}
             <Route path='/ingredients/:id' element={<IngredientDetails />} />
             <Route path='/feed/:number' element={<OrderInfo />} />
 
-            {/* 404 */}
             <Route path='*' element={<NotFound404 />} />
           </Routes>
 
-          {/* ── Модальные окна (только если есть background) ── */}
           {background && (
             <Routes>
               <Route

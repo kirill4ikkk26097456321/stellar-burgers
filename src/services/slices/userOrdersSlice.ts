@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getOrdersApi, getOrderByNumberApi } from '@api';
 import { TOrder } from '@utils-types';
+import type { RootState } from '../store';
 
 type TUserOrdersState = {
   orders: TOrder[];
@@ -89,8 +90,6 @@ const userOrdersSlice = createSlice({
 
 export const { clearCurrentOrder } = userOrdersSlice.actions;
 export default userOrdersSlice.reducer;
-
-import type { RootState } from '../store';
 
 export const selectUserOrders = (state: RootState) => state.userOrders.orders;
 

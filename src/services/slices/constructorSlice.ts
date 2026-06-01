@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
+import type { RootState } from '../store';
 
 type TConstructorState = {
   bun: TConstructorIngredient | null;
@@ -61,8 +62,6 @@ export const {
 } = constructorSlice.actions;
 
 export default constructorSlice.reducer;
-
-import type { RootState } from '../store';
 
 export const selectConstructorItems = (state: RootState) =>
   state.burgerConstructor;

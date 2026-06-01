@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { orderBurgerApi } from '@api';
 import { TOrder } from '@utils-types';
 import { clearConstructor } from './constructorSlice';
+import type { RootState } from '../store';
 
 type TOrderState = {
   orderRequest: boolean;
@@ -67,8 +68,6 @@ const orderSlice = createSlice({
 
 export const { clearOrderModal } = orderSlice.actions;
 export default orderSlice.reducer;
-
-import type { RootState } from '../store';
 
 export const selectOrderRequest = (state: RootState) =>
   state.order.orderRequest;

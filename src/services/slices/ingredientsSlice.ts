@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TIngredient } from '@utils-types';
+import type { RootState } from '../store';
 
 type TIngredientsState = {
   items: TIngredient[];
@@ -49,8 +50,6 @@ const ingredientsSlice = createSlice({
 });
 
 export default ingredientsSlice.reducer;
-
-import type { RootState } from '../store';
 
 export const selectIngredients = (state: RootState) => state.ingredients.items;
 

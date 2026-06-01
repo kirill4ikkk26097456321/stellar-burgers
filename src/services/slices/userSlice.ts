@@ -10,6 +10,7 @@ import {
 } from '@api';
 import { TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../../utils/cookie';
+import type { RootState } from '../store';
 
 type TUserState = {
   user: TUser | null;
@@ -190,8 +191,6 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-
-import type { RootState } from '../store';
 
 export const selectUser = (state: RootState) => state.user.user;
 export const selectIsAuthChecked = (state: RootState) =>
