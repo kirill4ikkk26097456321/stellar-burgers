@@ -72,6 +72,7 @@ const App = () => {
       ) : (
         <>
           <Routes location={background || location}>
+            <Route path='/' element={<ConstructorPage />} />
             <Route path='/feed' element={<Feed />} />
 
             <Route
