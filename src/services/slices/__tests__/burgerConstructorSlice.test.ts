@@ -1,7 +1,8 @@
 import reducer, {
   addIngredient,
   removeIngredient,
-  moveIngredient
+  moveIngredient,
+  clearConstructor
 } from '../constructorSlice';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 
@@ -60,14 +61,26 @@ describe('constructorSlice reducer', () => {
   });
 
   describe('addIngredient', () => {
-    it('should handle adding a bun', () => {
+    it('should handle adding a bun and place it in both top and bottom positions', () => {
       const action = addIngredient(mockBun);
       const state = reducer(initialState, action);
 
       expect(state.bun).toBeDefined();
       expect(state.bun?._id).toBe(mockBun._id);
       expect(state.bun?.id).toBeDefined();
+      expect(state.bun?.type).toBe('bun');
       expect(state.ingredients).toHaveLength(0);
+    });
+
+    it('should replace the existing bun when a new bun is added', () => {
+      const firstBun: TIngredient = { ...mockBun, _id: 'bun-old' };
+      const secondBun: TIngredient = { ...mockBun, _id: 'bun-new' };
+
+      const stateAfterFirst = reducer(initialState, addIngredient(firstBun));
+      const stateAfterSecond = reducer(stateAfterFirst, addIngredient(secondBun));
+
+      expect(stateAfterSecond.bun?._id).toBe('bun-new');
+      expect(stateAfterSecond.ingredients).toHaveLength(0);
     });
 
     it('should handle adding a normal ingredient', () => {
@@ -129,6 +142,25 @@ describe('constructorSlice reducer', () => {
       const state = reducer(stateWithIngredients, action);
 
       expect(state.ingredients).toEqual([ing2, ing1]);
+    });
+  });
+
+  describe('clearConstructor', () => {
+    it('should fully clear bun and all ingredients after placing an order', () => {
+      const bun: TConstructorIngredient = { ...mockBun, id: 'bun-uid' };
+      const ing1: TConstructorIngredient = { ...mockIngredient1, id: 'id-1' };
+      const ing2: TConstructorIngredient = { ...mockIngredient2, id: 'id-2' };
+
+      const filledState = {
+        bun,
+        ingredients: [ing1, ing2]
+      };
+
+      const state = reducer(filledState, clearConstructor());
+
+      expect(state.bun).toBeNull();
+      expect(state.ingredients).toHaveLength(0);
+      expect(state.ingredients).toEqual([]);
     });
   });
 });
