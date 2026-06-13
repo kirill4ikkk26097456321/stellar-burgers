@@ -83,7 +83,12 @@ test.describe('Страница конструктора (Stellar Burgers)', () 
     await closeButton.click();
     await expect(modal).toBeHidden();
 
+    const bunTopInConstructor = dropZone.locator('.constructor-element__text', { hasText: 'Краторная булка N-200i (верх)' });
+    const bunBottomInConstructor = dropZone.locator('.constructor-element__text', { hasText: 'Краторная булка N-200i (низ)' });
     const sauceInConstructor = dropZone.locator('.constructor-element__text', { hasText: 'Соус традиционный галактический' });
+
+    await expect(bunTopInConstructor).toBeHidden();
+    await expect(bunBottomInConstructor).toBeHidden();
     await expect(sauceInConstructor).toBeHidden();
   });
 });
